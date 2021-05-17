@@ -1,62 +1,73 @@
-import tensorflow as tf
-import tensorflow.compat.v1 as tf
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import pyplot as plt
-from matplotlib import pyplot, cm
-from mpl_toolkits.mplot3d import Axes3D
-#from drawnow import drawnow, figure
 
 
-tf.compat.v1.disable_eager_execution()
+import tensorflow as tf;
+import tensorflow.compat.v1 as tf;
+import numpy as np;
+import matplotlib.pyplot as plt;
+from matplotlib import pyplot as plt;
+from matplotlib import pyplot, cm;
+from mpl_toolkits.mplot3d import Axes3D;
+#from drawnow import drawnow, figure;
+
+
+tf.compat.v1.disable_eager_execution();
+
+
+
 
 def assert_shape(x, shape):
-    S = x.get_shape().as_list()
+    S = x.get_shape().as_list();
     if len(S)!=len(shape):
-        raise Exception("Shape mismatch: {} -- {}".format(S, shape))
+        raise Exception("Shape mismatch: {} -- {}".format(S, shape));
     for i in range(len(S)):
         if S[i]!=shape[i]:
-            raise Exception("Shape mismatch: {} -- {}".format(S, shape))
+            raise Exception("Shape mismatch: {} -- {}".format(S, shape));
+
 
 def compute_delta(u, x):
-    grad = tf.gradients(u, x)[0]
-    g1 = tf.gradients(grad[:,0], x)[0]
-    g2 = tf.gradients(grad[:,1], x)[0]
-    delta = g1[:,0] + g2[:,1]
-    assert_shape(delta, (None,))
-    return delta
+    grad = tf.gradients(u, x)[0];
+    g1 = tf.gradients(grad[:,0], x)[0];
+    g2 = tf.gradients(grad[:,1], x)[0];
+    delta = g1[:,0] + g2[:,1];
+    assert_shape(delta, (None,));
+    return delta;
+
 
 def compute_delta_nd(u, x, n):
-    grad = tf.gradients(u, x)[0]
-    g1 = tf.gradients(grad[:, 0], x)[0]
-    delta = g1[:,0]
+    grad = tf.gradients(u, x)[0];
+    g1 = tf.gradients(grad[:, 0], x)[0];
+    delta = g1[:,0];
     for i in range(1,n):
-        g = tf.gradients(grad[:,i], x)[0]
-        delta += g[:,i]
-    assert_shape(delta, (None,))
-    return delta
+        g = tf.gradients(grad[:,i], x)[0];
+        delta += g[:,i];
+    assert_shape(delta, (None,));
+    return delta;
+
 
 def compute_dx(u,x):
-    grad = tf.gradients(u, x)[0]
-    dudx = grad[:,0]
-    assert_shape(dudx, (None,))
-    return dudx
+    grad = tf.gradients(u, x)[0];
+    dudx = grad[:,0];
+    assert_shape(dudx, (None,));
+    return dudx;
+
 
 def compute_dy(u,x):
-    grad = tf.gradients(u, x)[0]
-    dudy = grad[:,1]
-    assert_shape(dudy, (None,))
-    return dudy
+    grad = tf.gradients(u, x)[0];
+    dudy = grad[:,1];
+    assert_shape(dudy, (None,));
+    return dudy;
 
 
 def rectspace(a,b,c,d,n):
-    x = np.linspace(a,b,n)
-    y = np.linspace(c,d,n)
-    [X,Y] = np.meshgrid(x,y)
-    return np.concatenate([X.reshape((-1, 1)), Y.reshape((-1, 1))], axis=1)
+    x = np.linspace(a,b,n);
+    y = np.linspace(c,d,n);
+    [X,Y] = np.meshgrid(x,y);
+    return np.concatenate([X.reshape((-1, 1)), Y.reshape((-1, 1))], axis=1);
+
 
 ##
 class NNPDE_ND:
+    
     def __init__(self,batch_size, N, d): # d- dimension, N-number of layers
         self.d = d
         self.batch_size = batch_size
@@ -120,6 +131,7 @@ class NNPDE_ND:
         u0 = self.exactsol(x)
         u1 = sess.run(self.u, feed_dict={self.x: x})[0]
         return np.sqrt(np.mean((u0-u1)**2))
+
 
 
 

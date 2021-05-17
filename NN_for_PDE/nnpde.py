@@ -1,4 +1,8 @@
-from pdebase import *
+
+
+from pdebase import *;
+
+
 
 ##
 class Problem1(NNPDE):
@@ -22,6 +26,8 @@ class Problem1(NNPDE):
         assert_shape(res, ())
         return res
         # end modification
+        
+        
 ##
 class Problem1_BD(NNPDE2):
 
@@ -41,6 +47,7 @@ class Problem1_BD(NNPDE2):
         res = tf.reduce_sum((deltah - delta) ** 2)
         assert_shape(res, ())
         return res
+
 
 class ProblemPeak_BD(NNPDE2):
     def __init__(self, batch_size, N, refn):
@@ -115,6 +122,8 @@ class ProblemPeak_BD(NNPDE2):
             print("Iteration={}, bloss = {}, loss= {}".format(i, bloss, loss))
 
 
+
+
 class ProblemBLSingularity_BD(NNPDE2):
     def __init__(self, batch_size, N, refn):
         self.alpha = 0.6
@@ -137,6 +146,9 @@ class ProblemBLSingularity_BD(NNPDE2):
         res = tf.reduce_sum((deltah - delta) ** 2)
         assert_shape(res, ())
         return res
+
+
+
 
 class ProblemPeak(NNPDE):
     def __init__(self, batch_size, N, refn):
@@ -178,6 +190,7 @@ class ProblemPeak(NNPDE):
         _, loss = sess.run([self.opt, self.loss], feed_dict={self.x: X})
         if i % 10 == 0:
             print("Iteration={}, loss= {}".format(i, loss))
+
 
 
 
