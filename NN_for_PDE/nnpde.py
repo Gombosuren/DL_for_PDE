@@ -399,7 +399,6 @@ for dim in [3]:
     plt.legend()
     #plt.savefig(dir + str(dim) + '_' 'l2.png')
     plt.show()
-    # /Users/shuyiyin/Dropbox/CS230_project/mcode
     # python nnpde.py
     
     
